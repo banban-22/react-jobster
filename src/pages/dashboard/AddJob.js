@@ -2,6 +2,11 @@ import { FormRow, FormRowSelect } from '../../components';
 import Wrapper from '../../assets/wrappers/DashboardFormPage';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
+import {
+  handleChange,
+  clearValues,
+  createJob,
+} from '../../features/job/jobSlice';
 
 const AddJob = () => {
   const {
@@ -17,6 +22,7 @@ const AddJob = () => {
     editJobId,
   } = useSelector((store) => store.job);
 
+  const dispatch = useDispatch();
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -24,12 +30,13 @@ const AddJob = () => {
       toast.error('Please fill out all fields');
       return;
     }
+    dispatch(createJob({ position, company, jobLocation, jobType, status }));
   };
 
   const handleJobInput = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    console.log(name, value);
+    dispatch(handleChange({ name, value }));
   };
 
   return (
@@ -77,11 +84,11 @@ const AddJob = () => {
             list={jobTypeOptions}
           />
 
-          <div className="btn-containerr">
+          <div className="btn-container">
             <button
               type="button"
               className="btn btn-block clear-btn"
-              onClick={() => console.log('clear values')}
+              onClick={() => dispatch(clearValues())}
             >
               clear
             </button>
