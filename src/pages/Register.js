@@ -13,7 +13,7 @@ const initialState = {
   isMember: true,
 };
 
-const Register = () => {
+function Register() {
   const [values, setValues] = useState(initialState);
   const { user, isLoading } = useSelector((store) => store.user);
   const dispatch = useDispatch();
@@ -22,13 +22,12 @@ const Register = () => {
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
+
     setValues({ ...values, [name]: value });
   };
-
   const onSubmit = (e) => {
     e.preventDefault();
     const { name, email, password, isMember } = values;
-
     if (!email || !password || (!isMember && !name)) {
       toast.error('Please fill out all fields');
       return;
@@ -43,7 +42,6 @@ const Register = () => {
   const toggleMember = () => {
     setValues({ ...values, isMember: !values.isMember });
   };
-
   useEffect(() => {
     if (user) {
       setTimeout(() => {
@@ -80,7 +78,19 @@ const Register = () => {
           handleChange={handleChange}
         />
         <button type="submit" className="btn btn-block" disabled={isLoading}>
-          {isLoading ? 'Loading...' : 'submit'}
+          {isLoading ? 'loading...' : 'submit'}
+        </button>
+        <button
+          type="button"
+          className="btn btn-block btn-hipster"
+          disabled={isLoading}
+          onClick={() =>
+            dispatch(
+              loginUser({ email: 'testUser@test.com', password: 'secret' })
+            )
+          }
+        >
+          {isLoading ? 'loading...' : 'demo app'}
         </button>
         <p>
           {values.isMember ? 'Not a member yet?' : 'Already a member?'}
@@ -91,6 +101,5 @@ const Register = () => {
       </form>
     </Wrapper>
   );
-};
-
+}
 export default Register;

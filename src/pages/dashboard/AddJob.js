@@ -6,9 +6,9 @@ import {
   handleChange,
   clearValues,
   createJob,
+  editJob,
 } from '../../features/job/jobSlice';
 import { useEffect } from 'react';
-import { editJob } from '../../features/job/jobSlice';
 
 const AddJob = () => {
   const {
@@ -46,6 +46,12 @@ const AddJob = () => {
     dispatch(createJob({ position, company, jobLocation, jobType, status }));
   };
 
+  const handleJobInput = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    dispatch(handleChange({ name, value }));
+  };
+
   useEffect(() => {
     if (!isEditing) {
       dispatch(
@@ -56,12 +62,6 @@ const AddJob = () => {
       );
     }
   }, []);
-
-  const handleJobInput = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    dispatch(handleChange({ name, value }));
-  };
 
   return (
     <Wrapper>

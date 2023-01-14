@@ -6,12 +6,13 @@ import Loading from './Loading';
 import { getAllJobs } from '../features/allJobs/allJobsSlice';
 
 const JobsContainer = () => {
-  const { jobs, isLoading } = useSelector((store) => store.allJobs);
+  const { jobs, isLoading, page, search, searchStatus, searchType, sort } =
+    useSelector((store) => store.allJobs);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getAllJobs());
-  }, []);
+  }, [page, search, searchStatus, searchType, sort]);
 
   if (isLoading) {
     return (
